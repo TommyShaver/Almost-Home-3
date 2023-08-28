@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class DataCollerctor : MonoBehaviour
 {
     private bool _bombReadyToLanuch;
-
+    
     public int _howManyShotsFired = 0;
     public int _howManyBombsShot = 0;
     public int _shotsThatHitRocks = 0;
@@ -50,13 +50,13 @@ public class DataCollerctor : MonoBehaviour
             i++;
             if (i == 4)
             {
-                _returnMusic.Invoke();
+                _bomb_SFX_Event_Over.Invoke();
+                Debug.Log("Data Coloerctor just launch _returnMusic Event");
             }
             yield return new WaitForSeconds(1);
         }
-        _bombReadyToLanuch = true;
         _bomb_SFX_Event_Over.Invoke();
-        
+        _bombReadyToLanuch = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)

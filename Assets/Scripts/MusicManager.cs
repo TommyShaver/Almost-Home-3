@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    public AudioSource _mainMusicTheme;
+    public AudioSource _pauseMusicTheme;
+    public AudioSource _gameOverTheme;
     private AudioLowPassFilter _lowPassAudioFilter;
     private IEnumerator _fadein;
     private IEnumerator _fadeout;
-    private float _minFrequency = 100f;
+    private float _minFrequency = 300f;
     private float _maxFrequency = 20000f;
-    private float _fadeInDuration = 1f;
-    private float _fadeOutDuration = 1f;
+    private float _fadeInDuration = 2f;
+    private float _fadeOutDuration = 2f;
 
     private void Start()
     {
@@ -23,12 +26,16 @@ public class MusicManager : MonoBehaviour
     {
         _fadeout = FadeOut(_lowPassAudioFilter, _fadeOutDuration, _minFrequency);
         StartCoroutine(_fadeout);
+        Debug.Log("Fade Filter Music Down");
     }
 
     public void StartMusicFilteringUp()
     {
+        StopAllCoroutines();
         _fadein = FadeIn(_lowPassAudioFilter, _fadeInDuration, _maxFrequency);
         StartCoroutine(_fadein);
+        Debug.Log("FadeIn Stoped my function");
+        Debug.Log("Fade Filter Music Back Up");
     }
 
 
@@ -60,5 +67,24 @@ public class MusicManager : MonoBehaviour
             _filter.cutoffFrequency = _newFrequency;
             yield return null;
         }
+    }
+
+    public void GamePausedMusicFuntion()
+    {
+        _mainMusicTheme.Pause();
+        _pauseMusicTheme.Play();
+    }
+    public void GameResumedMusicFuntion()
+    {
+        _mainMusicTheme.Play();
+        _pauseMusicTheme.Stop();
+        StopAllCoroutines();
+        StartMusicFilteringUp();
+        Debug.Log("GameResumedFuncation stoped my timer");
+    }
+    public void GameOverMusicFuntion()
+    {
+        _mainMusicTheme.Stop();
+        _gameOverTheme.Play();
     }
 }

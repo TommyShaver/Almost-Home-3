@@ -1,42 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerRotate : MonoBehaviour
 {
     [SerializeField] float _playerRotateSpeed;
     [SerializeField] float _horizontalInput;
-
-
-    //This is how you do this. 
-    public ParticleSystem _partSystem;
-
+    public UnityEvent _pauseGame;
+    public UnityEvent _resumeGame;
+    private bool _isgamePaused;
     private PlayerControls _playerHealth;
 
     private void Awake()
     {
         _playerHealth = GetComponent<PlayerControls>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        _partSystem.Play();
-    }
-
+    
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (_playerHealth._isDead == false)
         {
             _horizontalInput = Input.GetAxis("Horizontal");
             transform.Rotate(_horizontalInput * _playerRotateSpeed * Time.deltaTime * Vector3.back);
-        }
-        if(_playerHealth._isDead == true)
-        {
-            _partSystem.Stop();
-        }
 
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                if(_isgamePaused == false)
+                {
+                    _isgamePaused = true;
+                    _pauseGame.Invoke();
+                    Time.timeScale = 0;
+                }
+                else
+                {
+                    _isgamePaused = false;
+                    _resumeGame.Invoke();
+                    Time.timeScale = 1;
+                }
+            }
+        }
     }
-
-    
 }

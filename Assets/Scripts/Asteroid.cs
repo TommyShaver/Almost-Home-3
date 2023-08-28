@@ -50,6 +50,12 @@ public class Asteroid : MonoBehaviour
             Destroy(this.gameObject);
             FindObjectOfType<GameManager>().AstroidDestroyed(this);
         }
+      if(collision.gameObject.tag == "Player")
+        {
+            Destroy(this.gameObject);
+            FindObjectOfType<GameManager>().AstroidDestroyed(this);
+        }
+     
       if(collision.gameObject.tag == "Rock")
         {
             _audioSource.Play();

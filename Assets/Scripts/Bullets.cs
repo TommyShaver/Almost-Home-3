@@ -13,6 +13,7 @@ public class Bullets : MonoBehaviour
     public UnityEvent _stopCameraShaker;
     public UnityEvent _laser_SFX_Play;
     public UnityEvent _bomb_SFX_Play;
+    public UnityEvent _playBombIsReadyAnimationl;
 
     public float bulletForce = 5f;
     public float bombForce = 1f;
@@ -21,6 +22,7 @@ public class Bullets : MonoBehaviour
    
     private bool _bombReadyToLanuch;
     private bool _theFirstTimerHasCounted;
+    public bool _pauseMenuIsOn = false;
     
     private void Awake()
     {
@@ -32,21 +34,22 @@ public class Bullets : MonoBehaviour
         StartCoroutine(BombIsReady(30));
         _theFirstTimerHasCounted = false;
     }
-
-    // Update is called once per frame
     void Update()
     {
 
         if (_playerControls._isDead == false)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if(_pauseMenuIsOn == false)
             {
-                Shoot();
-            }
-            if(Input.GetKeyDown(KeyCode.B) && _bombReadyToLanuch == true)
-            {
-                ShootBomb();
-                StartCoroutine(BombIsReady(30));
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Shoot();
+                }
+                if (Input.GetKeyDown(KeyCode.B) && _bombReadyToLanuch == true)
+                {
+                    ShootBomb();
+                    StartCoroutine(BombIsReady(30));
+                }
             }
         }
     }
@@ -85,6 +88,20 @@ public class Bullets : MonoBehaviour
         }
         _bombReadyToLanuch = true;
         _theFirstTimerHasCounted = true;
+        if (_theFirstTimerHasCounted == true)
+        {
+            _playBombIsReadyAnimationl.Invoke();
+        }
     }
-    
+
+    public void PauseIsActive()
+    {
+        _pauseMenuIsOn = true;
+        Debug.Log(_pauseMenuIsOn);
+    }
+    public void PauseIsDeActive()
+    {
+        _pauseMenuIsOn = false;
+        Debug.Log(_pauseMenuIsOn);
+    }
 }

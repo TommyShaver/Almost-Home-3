@@ -15,13 +15,20 @@ public class SFXManager : MonoBehaviour
     [SerializeField] AudioSource _rockBoomAudioSource2;
     [Header("Ship Death SFX")]
     [SerializeField] AudioSource _shipDeathAudioSource;
-    [SerializeField] AudioClip _alert_SFX, _bomb_SFX, _comm_In_SFX, _comm_Out_SFX, _laser_SFX, _rock_Boom_SFX, _ship_Death_SFX;
+    [Header("Score SFX")]
+    [SerializeField] AudioSource _scoreAudioScore;
+    [Header("Puase SFX")]
+    [SerializeField] AudioSource _pauseAudioSourceSFX;
+    [Header("       ")]
+    [Header("Audio Clips")]
+    [SerializeField] AudioClip _pause_Start_SFX, _pause_End_SFX, _bomb_SFX, _score_SFX, _laser_SFX, _rock_Boom_SFX, _ship_Death_SFX;
 
     public UnityEvent _bombFXStart;
     public UnityEvent _bombFXMid;
     public UnityEvent _bombFXEnd;
 
     private bool _rockBoom1, _rockBoom2 = true;
+   
 
     private void Awake()
     {
@@ -30,28 +37,23 @@ public class SFXManager : MonoBehaviour
         _rockBoomAudioSource.volume = .4f;
         _rockBoomAudioSource2.volume = .4f;
     }
-    public void Alert_SFX()
-    {
-        
-    }
-
+   
     public void Bomb_SFX()
     {
         StartCoroutine(BombTimer(4));
         _audioSource2.clip = _bomb_SFX;
         _audioSource2.Play();
     }
-    public void Comm_In_SFX()
+    public void Score_SFX()
     {
-       
-    }
-    public void Comm_Out_SFX()
-    {
-        
+        _scoreAudioScore.volume = 0.1f;
+        _scoreAudioScore.clip = _score_SFX;
+        _scoreAudioScore.Play();
     }
     public void Laser_SFX()
     {
         float _laserPitch = Random.Range(.8f, 1f);
+        _audioSource.volume = 0.3f;
         _audioSource.pitch = _laserPitch;
         _audioSource.clip = _laser_SFX;
         _audioSource.Play();
@@ -122,5 +124,28 @@ public class SFXManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         _bombFXEnd.Invoke();
+    }
+
+    public void pauseSFXInGame()
+    {
+        _audioSource.Pause();
+        _audioSource2.Pause();
+        _rockBoomAudioSource.Pause();
+        _rockBoomAudioSource2.Pause();
+        _shipDeathAudioSource.Pause();
+        _scoreAudioScore.Pause();
+        _pauseAudioSourceSFX.clip = _pause_Start_SFX;
+        _pauseAudioSourceSFX.Play();
+    }
+    public void resumeSFXInGame()
+    {
+        _audioSource.Play();
+        _audioSource2.Play();
+        _rockBoomAudioSource.Play();
+        _rockBoomAudioSource2.Play();
+        _shipDeathAudioSource.Play();
+        _scoreAudioScore.Play();
+        _pauseAudioSourceSFX.clip = _pause_End_SFX;
+        _pauseAudioSourceSFX.Play();
     }
 }

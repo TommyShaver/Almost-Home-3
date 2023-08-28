@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private PlayerControls _player;
-
+   
     public ParticleSystem _explosion;
     public UnityEvent _laserHitingRocksData;
     public UnityEvent _laserHittingRockSFX;
@@ -15,6 +17,13 @@ public class GameManager : MonoBehaviour
     public UnityEvent _inGameTimeEvent3;
     public UnityEvent _inGameTimeEvent4;
     public UnityEvent _WarningSFXLights;
+    public UnityEvent _endOfTimeEventsFinalBoss;
+    public UnityEvent _scoreSFXGo;
+
+
+    public TextMeshProUGUI _scoreText;
+    public TextMeshProUGUI _endscoreText;
+    private int _score;
 
     public void AstroidDestroyed(Asteroid asteroid)
     {
@@ -22,6 +31,7 @@ public class GameManager : MonoBehaviour
         this._explosion.Play();
         _laserHitingRocksData.Invoke();
         _laserHittingRockSFX.Invoke();
+        UpdateScore(5);
     }
 
     private void Start()
@@ -29,6 +39,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(GameTimer(300));
         // Hides the cursor...
         Cursor.visible = false;
+        Time.timeScale = 1;
     }
 
     IEnumerator GameTimer(int _timer)
@@ -54,21 +65,34 @@ public class GameManager : MonoBehaviour
             {
                 _inGameTimeEvent3.Invoke();
             }
-            if (i == 255)
+            if (i == 275)
             {
-                _WarningSFXLights.Invoke();
+                _endOfTimeEventsFinalBoss.Invoke();
             }
-            if (i == 300)
+            if (i == 299)
             {
                 _inGameTimeEvent4.Invoke();
             }
             i++;
             yield return new WaitForSeconds(1);
-            Debug.Log(i);
         }
     }
     public void StopTheTimer()
     {
         StopAllCoroutines();
+        Cursor.visible = true;
+    }
+
+    public void UpdateScore(int scoreToAdd)
+    {
+        _score += scoreToAdd;
+        _scoreText.text = _score + " :Score";
+        _endscoreText.text = "Score: " + _score;
+        _scoreSFXGo.Invoke();
+    }
+
+    public void ResetGameButton()
+    {
+        SceneManager.LoadScene("StoryModeScene");
     }
 }

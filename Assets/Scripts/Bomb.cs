@@ -17,11 +17,11 @@ public class Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(BombTimer(4)); 
+        StartCoroutine(BombTimer(3)); 
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         
         if (_makeBigger == true)

@@ -10,6 +10,6 @@ public class GameOverCamera : MonoBehaviour
     public void GameOverCameraState()
     {
         _vitruaCamera.GetComponent<CinemachineVirtualCamera>().enabled = true;
-        Debug.Log("<color=teal>Camera</color>: This fuction was called.");
+        Debug.Log("<color=teal>Camera</color>: This fuction was called. Player Lost Camera");
     }
 }
