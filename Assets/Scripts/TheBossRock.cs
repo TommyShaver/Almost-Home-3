@@ -5,15 +5,18 @@ using UnityEngine.Events;
 
 public class TheBossRock : MonoBehaviour
 {
+    private Animator _animator;
     private int _rockHealth = 30;
     private float _speed = 2f;
+    private float _timerForAnimation = 0.2f;
 
     public AudioSource _rockTakingDamage;
     public UnityEvent _theRockIsDead;
 
     private void Start()
     {
-        _rockTakingDamage = GetComponent<AudioSource>();   
+        _rockTakingDamage = GetComponent<AudioSource>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -27,6 +30,8 @@ public class TheBossRock : MonoBehaviour
         {
             _rockHealth--;
             _rockTakingDamage.Play();
+            _animator.SetTrigger("laserHitRock");
+            
         }
         if(collision.gameObject.tag == ("Bomb"))
         {
@@ -38,5 +43,6 @@ public class TheBossRock : MonoBehaviour
         }
         Debug.Log(_rockHealth);
     }
-    
+   
+
 }

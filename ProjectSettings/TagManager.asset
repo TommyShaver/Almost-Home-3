@@ -9,6 +9,7 @@ TagManager:
   - Bomb
   - Laser_Bounds
   - Laser_Void
+  - Shield
   layers:
   - Default
   - TransparentFX

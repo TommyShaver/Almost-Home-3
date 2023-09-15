@@ -53,7 +53,7 @@ public class SFXManager : MonoBehaviour
     public void Laser_SFX()
     {
         float _laserPitch = Random.Range(.8f, 1f);
-        _audioSource.volume = 0.3f;
+        _audioSource.volume = 0.2f;
         _audioSource.pitch = _laserPitch;
         _audioSource.clip = _laser_SFX;
         _audioSource.Play();

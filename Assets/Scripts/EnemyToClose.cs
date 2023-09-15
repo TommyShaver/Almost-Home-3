@@ -46,7 +46,9 @@ public class EnemyToClose : MonoBehaviour
                 _fadein = FadeIn(_enemyToCloseSFXAduioScorue, _fadeInDuration, _maxVolume, _maxPitch);
                 StartCoroutine(_fadein);
             }
+            ShipLights.shipLights.EnemyRocksToClose();
         }
+       
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -62,6 +64,7 @@ public class EnemyToClose : MonoBehaviour
                     StopCoroutine(_fadein);
                     StartCoroutine(_fadeout);
                 }
+                ShipLights.shipLights.AllClear();
             }
         }
     }

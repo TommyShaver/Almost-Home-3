@@ -8,10 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-   
+    public static GameManager _gameManger { get; private set; }
+
     public ParticleSystem _explosion;
     public UnityEvent _laserHitingRocksData;
     public UnityEvent _laserHittingRockSFX;
+    public UnityEvent _startOfGameComms;
     public UnityEvent _inGameTimeEvent1;
     public UnityEvent _inGameTimeEvent2;
     public UnityEvent _inGameTimeEvent3;
@@ -24,6 +26,19 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI _scoreText;
     public TextMeshProUGUI _endscoreText;
     private int _score;
+
+    private void Awake()
+    {
+        if (_gameManger != null && _gameManger != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _gameManger = this;
+        }
+    }
+
 
     public void AstroidDestroyed(Asteroid asteroid)
     {
@@ -47,25 +62,29 @@ public class GameManager : MonoBehaviour
         int i = 0;
         while (i < _timer)
         {
+            if(i == 5)
+            {
+                _startOfGameComms.Invoke();
+            }
             if(i == 60)
             {
                 _inGameTimeEvent1.Invoke();
             }
 
-            if(i == 175)
+            if(i == 146)
             {
                 _WarningSFXLights.Invoke();
             }
-            if (i == 180)
+            if (i == 150)
             {
                 _inGameTimeEvent2.Invoke();
             }
 
-            if (i == 240)
+            if (i == 200)
             {
                 _inGameTimeEvent3.Invoke();
             }
-            if (i == 275)
+            if (i == 290)
             {
                 _endOfTimeEventsFinalBoss.Invoke();
             }
